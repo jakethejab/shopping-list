@@ -1,0 +1,17 @@
+<ng-container *ngIf="!(isInitializing$ | async); else loading">
+  <ng-container *ngIf="(lists$ | async).length > 0; else empty">
+    <div *ngFor="let list of lists$ | async; trackBy: listsTrackByFn">
+      <app-list-card [list]="list"></app-list-card>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #empty>
+  <mat-card>
+    <p style="text-align: center;">There are no shopping lists</p>
+  </mat-card>
+</ng-template>
+
+<ng-template #loading>
+  <ngx-skeleton-loader count="10" [theme]="{ height: '76px', 'margin-bottom': '20px', 'border-radius': '4px', 'background-color': '#424242' }" animation="progress-dark"></ngx-skeleton-loader>
+</ng-template>

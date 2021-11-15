@@ -1,0 +1,54 @@
+
+<ng-container *ngIf="!(isItemsInitializing$ | async); else loading">
+  <div fxLayout="row" fxLayoutAlign="start center" *ngIf="list$ | async as list" style="margin-bottom: 20px;">
+    <h2 fxFlex style="margin-bottom: 0;">
+      {{ list.name }}
+    </h2>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <div style="text-align: center;">Unhecked<br /><span class="money">{{ list.totalPrice?.unchecked ?? 0 | currency: 'USD' }}</span></div>
+      <div style="text-align: center;">Checked<br /><span class="money">{{ list.totalPrice?.checked ?? 0 | currency: 'USD' }}</span></div>
+    </div>
+  </div>
+  
+  <app-add-item [listId]="listId"></app-add-item>
+  
+  <mat-card *ngIf="(items$ | async).length > 0; else empty">
+    <mat-selection-list class="list-items" disableRipple="true" (selectionChange)="onItemCheck($event)" [multiple]="true">
+      <mat-list-option class="list-item" *ngFor="let item of items$ | async; trackBy: itemsTrackByFn" checkboxPosition="before" [value]="item.id" [selected]="item.checked">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" fxLayoutGap.xs="10px">
+          <div class="list-item-name" [class.cross-out]="item.checked" fxFlex>{{ item.name }}</div>
+          <div class="list-item-quantity">{{ item.quantity | number }}</div>
+          <div class="list-item-price">{{ item.price | currency: 'USD' }}</div>
+          <button mat-icon-button [matMenuTriggerFor]="listMenu" (click)="onMenuClick($event)">
+            <svg class="icon" width="16px" height="16px" aria-hidden="true" focusable="false" viewBox="0 0 16 16">
+              <path d="M6 3c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2zM6 8c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2zM6 13c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2z"></path>
+            </svg>
+          </button>
+          <mat-menu #listMenu="matMenu">
+            <button mat-menu-item (click)="showEditItem(item.id); false">
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteItem(item.id, item.name); false">
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-card>
+</ng-container>
+
+<ng-template #empty>
+  <mat-card>
+    <p style="text-align: center;">There are no shopping list items</p>
+  </mat-card>
+</ng-template>
+
+<ng-template #loading>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <ngx-skeleton-loader count="1" [theme]="{ height: '32px', width: '200px', 'margin-bottom': '15px', 'background-color': '#424242' }" animation="progress-dark"></ngx-skeleton-loader>
+    <ngx-skeleton-loader count="1" [theme]="{ height: '40px', width: '200px', 'margin-bottom': '15px', 'background-color': '#424242' }" animation="progress-dark"></ngx-skeleton-loader>
+  </div>
+  <ngx-skeleton-loader count="1" [theme]="{ height: '137px', 'margin-bottom': '15px', 'background-color': '#424242' }" animation="progress-dark"></ngx-skeleton-loader>
+  <ngx-skeleton-loader count="1" [theme]="{ height: '500px', 'margin-bottom': '15px', 'background-color': '#424242' }" animation="progress-dark"></ngx-skeleton-loader>
+</ng-template>

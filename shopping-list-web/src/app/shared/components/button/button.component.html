@@ -1,0 +1,8 @@
+<button type="submit" mat-raised-button color="accent" class="button-loader" [disabled]="disabled || isLoading" (click)="click.emit($event)">
+  <span class="label">
+    <ng-content></ng-content>
+  </span>
+  <div *ngIf="isLoading" class="spinner">
+    <mat-progress-spinner mode="indeterminate" [diameter]="20" color="accent"></mat-progress-spinner>
+  </div>
+</button>

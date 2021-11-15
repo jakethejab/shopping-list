@@ -1,0 +1,20 @@
+<form [formGroup]="formGroup" (submit)="saveList(); false">
+  <app-dialog [title]="title" [settings]="{ dialogActions: true }">
+    <ng-container dialog-content>
+      <div class="form">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Name</mat-label>
+          <input #nameInput matInput formControlName="name" id="name" name="name" placeholder="e.g. Christmas Gifts" autocomplete="off">
+          <mat-error>
+            <ng-container *ngIf="name.errors?.required">Please enter an list name</ng-container>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <ng-container dialog-actions>
+      <app-button [disabled]="formGroup.invalid || formGroup.pristine" [isLoading]="isLoading">
+        {{ isCreate ? 'Add' : 'Save' }}
+      </app-button>
+    </ng-container>
+  </app-dialog>
+</form>

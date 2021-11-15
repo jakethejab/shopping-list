@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@dbTables/*": ["src/db-tables/*"],
+      "@functions/*": ["src/functions/*"],
+      "@libs/*": ["src/libs/*"],
+      "@services/*": ["src/services/*"],
+      "@models/*": ["src/models/*"],
+      "@shared/*": ["src/shared/*"],
+      "@documentation/*": ["src/documentation/*"],
+    }
+  }
+}

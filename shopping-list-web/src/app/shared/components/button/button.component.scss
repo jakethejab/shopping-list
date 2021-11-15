@@ -1,0 +1,10 @@
+.button-loader {
+  .mat-button-wrapper {
+    display: flex !important;
+    align-items: center;
+  
+    .spinner {
+      margin-left: 6px;
+    }
+  }
+}

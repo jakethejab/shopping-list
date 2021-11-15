@@ -1,0 +1,22 @@
+<mat-card class="clickable" (click)="onClick(list.id); false" style="margin-bottom: 20px;">
+  <div fxLayout="row" fxLayoutAlign="center center" style="width: 100%;">
+    <div fxFlex>{{ list.name }}</div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <div class="accent-color">{{ list.itemsChecked }}/{{ list.itemsTotal }}</div>
+      <button mat-icon-button [matMenuTriggerFor]="listMenu" (click)="onMenuClick($event); false">
+        <svg class="icon" width="16px" height="16px" aria-hidden="true" focusable="false" viewBox="0 0 16 16">
+          <path d="M6 3c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2zM6 8c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2zM6 13c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2z"></path>
+        </svg>
+      </button>
+      <mat-menu #listMenu="matMenu">
+        <button mat-menu-item (click)="showListForm(list.id); false">
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item (click)="deleteList(list.id, list.name); false">
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+  <mat-progress-bar mode="determinate" [value]="(list.itemsChecked / list.itemsTotal) * 100" color="accent"></mat-progress-bar>
+</mat-card>

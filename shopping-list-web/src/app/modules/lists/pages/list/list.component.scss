@@ -1,0 +1,30 @@
+@import '../../../../core/scss/partials/breakpoints';
+
+.money {
+  font-weight: 500;
+}
+
+.list-items {
+  .list-item {
+    .list-item-name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      
+      &.cross-out {
+        text-decoration: line-through;
+      }
+    }
+
+    .list-item-price, .list-item-quantity {
+      width: 100px;
+      text-align: right;
+    }
+
+    @include media-breakpoint('xs') {
+      .list-item-price, .list-item-quantity {
+        width: auto !important;
+      }
+    }
+  }
+}

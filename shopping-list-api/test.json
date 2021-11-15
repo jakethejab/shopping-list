@@ -1,0 +1,235 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "List": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdOn": {
+            "type": "number"
+          },
+          "itemsTotal": {
+            "type": "number"
+          },
+          "itemsChecked": {
+            "type": "number"
+          }
+        }
+      },
+      "ApiRequestCreateList": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {}
+        }
+      },
+      "ApiResponseLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "createdOn": {
+                  "type": "number"
+                },
+                "itemsTotal": {
+                  "type": "number"
+                },
+                "itemsChecked": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ApiResponseList": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "createdOn": {
+                "type": "number"
+              },
+              "itemsTotal": {
+                "type": "number"
+              },
+              "itemsChecked": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "info": {
+    "title": "Shopping List API",
+    "description": "API for creating shopping lists and adding, checking, removing items",
+    "version": "1"
+  },
+  "paths": {
+    "/lists": {
+      "get": {
+        "operationId": "getLists",
+        "summary": "Gets a list of shopping lists",
+        "responses": {
+          "200": {
+            "description": "Result will be an array of shopping lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLists"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createList",
+        "summary": "Creates a new shopping list",
+        "responses": {
+          "200": {
+            "description": "Result will be the newly created shopping list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": ["ok", "error"]
+                    },
+                    "message": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/List" 
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{id}": {
+      "put": {
+        "operationId": "updateList",
+        "summary": "Updates a shopping list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteList",
+        "summary": "Deletes a shopping list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],        
+        "responses": {
+          "200": {
+            "description": "status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+<form [formGroup]="formGroup" (submit)="updateItem(); false">
+  <app-dialog [title]="'Edit Item'" [settings]="{ dialogActions: true }">
+    <ng-container dialog-content>
+      <div class="form">
+
+        <div style="margin-bottom: 10px;">
+          <mat-form-field appearance="fill" color="accent">
+            <mat-label>Name</mat-label>
+            <input #nameInput matInput formControlName="name" id="name" name="name" placeholder="e.g. Xbox Series X" autocomplete="off">
+            <mat-error>
+              <ng-container *ngIf="name.errors?.required">Please enter an item name</ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+          <div fxFlex.gt-xs="48" style="width: 100%;">
+            <mat-form-field appearance="fill" color="accent">
+              <mat-label>Quantity</mat-label>
+              <input matInput type="number" formControlName="quantity" id="quantity" name="quantity" placeholder="e.g. 1" autocomplete="off">
+              <mat-error>
+                <ng-container *ngIf="quantity.errors?.required">Please enter a quantity</ng-container>
+                <ng-container *ngIf="quantity.errors?.min">Must be at least 1</ng-container>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex.gt-xs="48" style="width: 100%;">
+            <mat-form-field appearance="fill" color="accent">
+              <mat-label>Price</mat-label>
+              <input matInput type="number" formControlName="price" id="price" name="price" placeholder="e.g. 12.50" autocomplete="off">
+              <mat-error>
+                <ng-container *ngIf="price.errors?.required">Please enter a price</ng-container>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container dialog-actions>
+      <app-button [disabled]="formGroup.invalid || formGroup.pristine">
+        Save
+      </app-button>
+    </ng-container>
+  </app-dialog>
+</form>

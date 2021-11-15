@@ -1,0 +1,593 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "List": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdOn": {
+            "type": "number"
+          },
+          "itemsTotal": {
+            "type": "number"
+          },
+          "itemsChecked": {
+            "type": "number"
+          },
+          "totalPrice": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "checked": {
+                "type": "number"
+              },
+              "unchecked": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdOn": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "checked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "error"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "result": {}
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "info": {
+    "title": "Shopping List API",
+    "description": "API for creating shopping lists and adding, checking, removing items",
+    "version": "1"
+  },
+  "paths": {
+    "/lists": {
+      "get": {
+        "operationId": "getLists",
+        "summary": "Gets a list of shopping lists",
+        "responses": {
+          "200": {
+            "description": "Result will be an array of shopping lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "error"
+                      ],
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/List"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": [
+                    {
+                      "id": "REffFI4zb5wiiR3zn84KA",
+                      "name": "Thanksgiving",
+                      "createdOn": 1636644860,
+                      "itemsTotal": 10,
+                      "itemsChecked": 2,
+                      "totalPrice": {
+                        "checked": 13.4,
+                        "unchecked": 5
+                      }
+                    },
+                    {
+                      "id": "8AszBM0C0CuAanPPbhiKs",
+                      "name": "Christmas",
+                      "createdOn": 1636645176,
+                      "itemsTotal": 20,
+                      "itemsChecked": 20,
+                      "totalPrice": {
+                        "checked": 100.6,
+                        "unchecked": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createList",
+        "summary": "Creates a new shopping list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Christmas"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Result will be the newly created shopping list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "error"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "result": {
+                      "$ref": "#/components/schemas/List"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": {
+                    "id": "8AszBM0C0CuAanPPbhiKs",
+                    "name": "Christmas",
+                    "createdOn": 1636644860,
+                    "itemsTotal": 0,
+                    "itemsChecked": 0,
+                    "totalPrice": {
+                      "checked": 0,
+                      "unchecked": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{listId}": {
+      "put": {
+        "operationId": "updateList",
+        "summary": "Updates a shopping list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Trucker Hat"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "REffFI4zb5wiiR3zn84KA"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteList",
+        "summary": "Deletes a shopping list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "REffFI4zb5wiiR3zn84KA"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{listId}/items": {
+      "get": {
+        "summary": "Gets items in a shopping list",
+        "operationId": "getItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "REffFI4zb5wiiR3zn84KA"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result will be an array of shopping lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "error"
+                      ],
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "$ref": "#/components/schemas/List"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Item"
+                          }
+                        } 
+                      }
+                    }
+                  }
+                },
+
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a new shopping list item",
+        "operationId": "createItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "REffFI4zb5wiiR3zn84KA"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Turkey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Result will be an array of shopping lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "error"
+                      ],
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "result": {
+                      "$ref": "#/components/schemas/Item"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "ok",
+                  "result": {
+                    "id": "8xZSDMmM4yxsz9EDf_iId",
+                    "listId": "z8IEPXkHMIbLs3WvT8Nwk",
+                    "name": "Potatoes",
+                    "createdOn": 1636684420,
+                    "checked": false,
+                    "quantity": 1,
+                    "price": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{listId}/items/{itemId}": {
+      "put": {
+        "operationId": "updateItem",
+        "summary": "Updates a shopping list item",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  },
+                  "price": {
+                    "type": "number"
+                  }
+                }
+              },
+              "example": {
+                "name": "Xbox Series X",
+                "quantity": 1,
+                "price": 500
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteItem",
+        "summary": "Deletes a shopping list item",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/{listId}/items/{itemId}/check": {
+      "post": {
+        "operationId": "checkItem",
+        "summary": "Checks/Unchecks a shopping list item",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "checked": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "listId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "itemId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status will be \"ok\" if successfull",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "message": null,
+                  "result": null
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

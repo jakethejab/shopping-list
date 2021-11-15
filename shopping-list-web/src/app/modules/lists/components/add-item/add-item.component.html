@@ -1,0 +1,13 @@
+<mat-card style="margin-bottom: 20px;">
+  <form [formGroup]="formGroup" (submit)="addItem(); false">
+    <mat-form-field appearance="fill" color="accent">
+      <mat-label>Add Item</mat-label>
+      <input #addItemInput fxFlex matInput formControlName="name" placeholder="e.g. Xbox Series X" autocomplete="off">
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <app-button [disabled]="formGroup && (formGroup.invalid || formGroup.pristine || name.value.trim() === '')" [isLoading]="isCreateLoading$ | async">
+        Add
+      </app-button>
+    </div>
+  </form>
+</mat-card>
