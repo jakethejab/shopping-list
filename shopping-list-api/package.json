@@ -4,9 +4,9 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "start": "serverless offline start --aws-profile bact --stage local",
+    "start": "serverless offline start --aws-profile my-aws-profile --stage local",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "serverless deploy --aws-profile bact --stage prod"
+    "deploy": "serverless deploy --aws-profile my-aws-profile --stage prod"
   },
   "engines": {
     "node": ">=14.15.0"

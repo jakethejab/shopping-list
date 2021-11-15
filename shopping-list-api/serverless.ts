@@ -24,7 +24,6 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      AWS_PROFILE: 'bact',
       AWS_REGION_NAME: 'us-east-1',
       TABLE_NAME_LISTS: '${self:custom.tableNameLists}',
       TABLE_NAME_ITEMS: '${self:custom.tableNameItems}',
@@ -53,8 +52,7 @@ const serverlessConfiguration: AWS = {
           }
         ],
       },
-    },    
-    profile: 'bact'
+    }
   },
   functions: {
     ...listFunctions,
